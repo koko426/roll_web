@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='images/logo.gif') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='font/iconfont.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery-2.2.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-side-menu.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-common.js') }}"></script>
+
+</head>
+
+<body>
+<div class="fk-content pr">
+    <!-- 顶部 -->
+    <div id="header"></div>
+    <div class="fk-cont">
+        <!-- 左边导航 -->
+        <div id="side"></div>
+        <!-- 主体部分 -->
+        <div class="fk-contentright">
+
+            <!--<iframe id="mainContent" src="/page?page=main.html"  name="my_iframe" width="100%" hight="100%"  frameborder="0" marginwidth="0" marginheight="0" scrolling="yes" overflow-x="hidden" border="0" security="restricted" sandbox="allow-forms allow-scripts allow-same-origin"></iframe>-->
+
+            <div class="fk-subject">
+                <div class="fk-mainsection">
+                    <div class="fk-maintd clearfix">
+                        <iframe id="mainContent" src="/page?page=main.html" name="my_iframe" width="100%"
+                                onload="setIframeHeight(this)"
+                                frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" overflow-x="hidden" overflow-y="auto"
+                                border="0" security="restricted" align='center' allowfullscreen='true'
+                                sandbox="allow-forms allow-scripts allow-same-origin"></iframe>
+
+
+                    </div>
+                </div>
+            </div>
+
+             <!-- 公司信息 -->
+        <div id="footer"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        $("#header").load("header.html");
+        $("#side").load("side.html");
+        $("#footer").load("footer.html");
+
+    })
+</script>
+<script type="text/javascript">
+
+
+    // document.domain = "caibaojian.com";
+    function setIframeHeight(iframe) {
+        if (iframe) {
+            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+            if (iframeWin.document.body) {
+                // console.log(iframeWin.document.documentElement.scrollHeight)
+                // console.log(iframeWin.document.body.scrollHeight)
+                // console.log("===================================")
+                iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+
+                iframe.height=520;
+                // iframe.height = iframeWin.document.documentElement.scrollHeight-((iframeWin.document.documentElement.scrollHeight)*0.2) || iframeWin.document.body.scrollHeight-((iframeWin.document.body.scrollHeight)*0.2);
+            }
+        }
+    };
+
+    window.onload = function () {
+        setIframeHeight(document.getElementById('mainContent'));
+    };
+
+</script>
+</body>
+
+</html>

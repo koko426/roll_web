@@ -1,0 +1,72 @@
+{
+  "id": "1680494",
+  "name": "fk-icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "554433",
+      "name": "旗帜",
+      "font_class": "iconset06",
+      "unicode": "e717",
+      "unicode_decimal": 59159
+    },
+    {
+      "icon_id": "1086158",
+      "name": "购便宜－限时时钟",
+      "font_class": "shizhong01",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "1817686",
+      "name": "业务明细",
+      "font_class": "yewumingxi04",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "4320338",
+      "name": "供应链",
+      "font_class": "gongyinglian07",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "6503468",
+      "name": "风控，安全，盾牌",
+      "font_class": "fengkonganquandunpai02",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "8017121",
+      "name": "图标_基药-警示",
+      "font_class": "tubiao08",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "8348113",
+      "name": "地球",
+      "font_class": "diqiu03",
+      "unicode": "e719",
+      "unicode_decimal": 59161
+    },
+    {
+      "icon_id": "8348167",
+      "name": "银行卡",
+      "font_class": "yinhangqia09",
+      "unicode": "e724",
+      "unicode_decimal": 59172
+    },
+    {
+      "icon_id": "9557788",
+      "name": "对勾",
+      "font_class": "duigou05",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+.myselect {
+    border: 1px solid gainsboro;
+    /*width: 80px;*/
+    height: 34px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.myselect:focus {
+    outline: blue;
+}
+
