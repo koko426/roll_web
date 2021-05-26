@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>用例</title>
-    <link href="{{ url_for('static',filename ='css/easy.css') }}" rel="stylesheet">
-    <!--<link rel="stylesheet" href="{{ url_for('static',filename ='css/index.css') }}">-->
-    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='font/iconfont.css') }}">-->
+    <link rel="shortcut icon" href="{{ url_for('static',filename='images/logo.gif') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='font/iconfont.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery-2.2.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-side-menu.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-common.js') }}"></script>
 
 
     <link href="{{ url_for('static',filename ='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static',filename ='bootstrap/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static',filename ='bootstrap/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
     <link href="{{ url_for('static',filename ='bootstrap/css/style.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static',filename ='bootstrap/css/animate.min.css') }}" rel="stylesheet">
-
     <link href="{{ url_for('static',filename ='css/easy.css') }}" rel="stylesheet">
 
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery-2.2.4.min.js') }}"></script>
+    <link href="{{ url_for('static',filename ='bootstrap/css/animate.min.css') }}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/echarts.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/macarons.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='bootstrap/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='bootstrap/laydate/laydate.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/template-web.js') }}"></script>
 
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/template-web.js') }}"></script>
     <style>
 
         .right {
@@ -49,108 +60,132 @@
 
     </style>
 </head>
+
 <body>
-<!--选择框-->
-<div class="form-group" style="margin-top: 5px">
-    <div class="input-group">
-        <select data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2">
-            <option value="">请选择项目</option>
-            <option value="110000" hassubinfo="true">新债券</option>
-            <option value="120000" hassubinfo="true">批处理</option>
-            <option value="130000" hassubinfo="true">滚动</option>
-        </select>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <i class="fa fa-calendar-times-o" style="margin-left: 4px;margin-top:10px;position: absolute"></i>
-        <input type="text" class="myselect" style="width: 240px;text-align: center" placeholder="选择测试日期" id="test10">
+<div class="fk-content pr">
+    <!-- 顶部 -->
+    <div id="header"></div>
+    <div class="fk-cont">
+        <!-- 左边导航 -->
+        <div id="side"></div>
+        <!-- 主体部分 -->
+        <div class="fk-contentright">
+
+            <!--选择框-->
+            <div class="form-group" style="margin-top: 5px">
+                <div class="input-group">
+                    <select data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2">
+                        <option value="">请选择项目</option>
+                        <option value="110000" hassubinfo="true">新债券</option>
+                        <option value="120000" hassubinfo="true">批处理</option>
+                        <option value="130000" hassubinfo="true">滚动</option>
+                    </select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-calendar-times-o" style="margin-left: 4px;margin-top:10px;position: absolute"></i>
+                    <input type="text" class="myselect" style="width: 240px;text-align: center" placeholder="选择测试日期"
+                           id="test10">
+
+                </div>
+            </div>
+            <!--选择框 end-->
+
+            <div style="border: 1px solid #e7eaec;box-shadow: 0 0 8px 2px #eee">
+                <!--列表-->
+                <div>
+                    <table class="table table-responsive" id="test_data">
+                    </table>
+                </div>
+                <!--列表end-->
+
+
+            </div>
+
+            <script type="text/javascript">
+                last_id = 0;
+
+                $(function () {
+
+                    $("#header").load("header.html");
+                    $("#side").load("side.html");
+                    $("#footer").load("footer.html");
+
+                    // 1.加载日期插件
+                    laydate.render({
+                        elem: '#test10'
+                    });
+
+                    load_case_data();
+
+                });
+
+
+                function load_data(id) {
+                    //    上次数据状态
+                    var cname_last = $('#right_' + last_id).attr("class");
+                    if (cname_last == "right hidden") {
+                        if (last_id != id) {
+                            //关闭上次打开
+                            $('#down_' + last_id).toggleClass('hidden');
+                            $('#right_' + last_id).toggleClass('hidden');
+                            $("#show_scene_" + last_id).hide();
+                        }
+                    }
+
+
+                    $('#right_' + id).toggleClass('hidden');
+                    $('#down_' + id).toggleClass('hidden');
+
+
+                    //    加载数据
+                    var cname = $('#right_' + id).attr("class");
+                    //打开数据
+                    if (cname == "right hidden") {
+
+
+                        $("#show_scene_" + id).show();
+                        load_scene_data(id);
+                    } else {
+                        $("#show_scene_" + id).hide();
+                    }
+                    last_id = id;
+
+                }
+
+                function load_scene_data(id) {
+                    $.post("{{ url_for('scene_data') }}", {
+                        id: id
+
+                    }, function (result) {
+                        if (result.code == 200) {
+                            var html = template('sceneTemplate', result);
+                            document.getElementById('show_scene_' + id).innerHTML = html;
+                        }
+
+                    })
+                }
+
+                function load_case_data() {
+                    $.post("{{ url_for('case_data') }}", {
+                        platform: 'xzq',
+                        testDate: '2021-04-20'
+
+                    }, function (result) {
+                        if (result.code == 200) {
+                            var html = template('testTemplate', result);
+                            document.getElementById('test_data').innerHTML = html;
+                        }
+
+                    })
+
+                }
+
+            </script>
+            <!-- 公司信息 -->
+            <div id="footer"></div>
+        </div>
 
     </div>
 </div>
-<!--选择框 end-->
-
-<!--列表-->
-<div>
-    <table class="table table-responsive" id="test_data">
-    </table>
-</div>
-<!--列表end-->
-
-<script>
-    last_id = 0;
-
-    $(function () {
-        // 1.加载日期插件
-        laydate.render({
-            elem: '#test10'
-        });
-
-        load_case_data();
-
-    });
-
-
-    function load_data(id) {
-        //    上次数据状态
-        var cname_last = $('#right_' + last_id).attr("class");
-        if (cname_last == "right hidden") {
-            if (last_id != id) {
-                //关闭上次打开
-                $('#down_' + last_id).toggleClass('hidden');
-                $('#right_' + last_id).toggleClass('hidden');
-                $("#show_scene_" + last_id).hide();
-            }
-        }
-
-
-        $('#right_' + id).toggleClass('hidden');
-        $('#down_' + id).toggleClass('hidden');
-
-
-        //    加载数据
-        var cname = $('#right_' + id).attr("class");
-        //打开数据
-        if (cname == "right hidden") {
-
-
-            $("#show_scene_" + id).show();
-            load_scene_data(id);
-        } else {
-            $("#show_scene_" + id).hide();
-        }
-        last_id = id;
-
-    }
-
-    function load_scene_data(id) {
-        $.post("{{ url_for('scene_data') }}", {
-            id: id
-
-        }, function (result) {
-            if (result.code == 200) {
-                var html = template('sceneTemplate', result);
-                document.getElementById('show_scene_' + id).innerHTML = html;
-            }
-
-        })
-    }
-
-    function load_case_data() {
-        $.post("{{ url_for('case_data') }}", {
-            platform: 'xzq',
-            testDate: '2021-04-20'
-
-        }, function (result) {
-            if (result.code == 200) {
-                var html = template('testTemplate', result);
-                document.getElementById('test_data').innerHTML = html;
-            }
-
-        })
-
-    }
-
-
-</script>
-
 {% raw %}
 <script id="testTemplate" type="text/html">
 
@@ -208,5 +243,7 @@
     </table>
 </script>
 {% endraw %}
+
 </body>
+
 </html>

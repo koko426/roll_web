@@ -22,6 +22,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/test.html')
+def test():
+    return render_template("总揽.html")
+
+
 @app.route('/page')
 def page():
     page = flask.request.args.get('page')

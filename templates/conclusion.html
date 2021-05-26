@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>测试结论</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动化检测平台</title>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='images/logo.gif') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='font/iconfont.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery-2.2.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-side-menu.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-common.js') }}"></script>
+
 
     <link href="{{ url_for('static',filename ='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static',filename ='bootstrap/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -14,147 +27,168 @@
 
     <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/echarts.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/custom.js') }}"></script>
-
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery-2.2.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/macarons.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='bootstrap/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='bootstrap/laydate/laydate.js') }}"></script>
+
     <script type="text/javascript" src="{{ url_for('static',filename ='js/template-web.js') }}"></script>
-
 </head>
+
 <body>
+<div class="fk-content pr">
+    <!-- 顶部 -->
+    <div id="header"></div>
+    <div class="fk-cont">
+        <!-- 左边导航 -->
+        <div id="side"></div>
+        <!-- 主体部分 -->
+        <div class="fk-contentright">
 
-<!--选择框-->
-<div class="form-group" style="margin-top: 5px">
-    <div class="input-group">
-        <select data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2">
-            <option value="">请选择项目</option>
-            <option value="110000" hassubinfo="true">新债券</option>
-            <option value="120000" hassubinfo="true">批处理</option>
-            <option value="130000" hassubinfo="true">滚动</option>
-        </select>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <i class="fa fa-calendar-times-o" style="margin-left: 4px;margin-top:10px;position: absolute"></i>
-        <input type="text" class="myselect" style="width: 240px;text-align: center" placeholder="选择测试日期" id="test10">
+            <!--选择框-->
+            <div class="form-group" style="margin-top: 5px">
+                <div class="input-group">
+                    <select data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2">
+                        <option value="">请选择项目</option>
+                        <option value="110000" hassubinfo="true">新债券</option>
+                        <option value="120000" hassubinfo="true">批处理</option>
+                        <option value="130000" hassubinfo="true">滚动</option>
+                    </select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-calendar-times-o" style="margin-left: 4px;margin-top:10px;position: absolute"></i>
+                    <input type="text" class="myselect" style="width: 240px;text-align: center" placeholder="选择测试日期"
+                           id="test10">
 
-    </div>
-</div>
-<!--选择框 end-->
+                </div>
+            </div>
+            <!--选择框 end-->
 
-<!--饼图-->
-<div class="row" style="border-top: 1px solid gainsboro;margin-top: -8px">
-    <div style="margin-left: 20px;"><h2 style="font-family: 'Microsoft YaHei UI';font-weight: bolder;color: #18465d">
-        测试日期 2021-04-20</h2></div>
-    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-    <div id="main" style="height:280px;margin-right: 70%;margin-top: -40px"></div>
-</div>
-<!--饼图 end-->
-
-<!--列表-->
-<div style="background-color: #dcd9c082;height: 45px;">
-    <div style="position: absolute;margin-top: 9px;">
-        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black">测试执行明细</span>
-    </div>
-</div>
-<div>
-    <table class="table table-responsive" id="test_data">
-    </table>
-</div>
-
-<!--列表end-->
+            <div style="border: 1px solid #e7eaec;box-shadow: 0 0 8px 2px #eee">
+                <!--关键指标-->
+                <div style="height: 45px;margin-top: 20px;">
+                    <div style="position: absolute;margin-top: 9px;margin-left: 27px">
+                        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">测试日期 2021-04-20</span>
+                    </div>
+                </div>
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="main" style="height:280px;margin-right: 83%;margin-top: -24px"></div>
+                <!--关键指标end-->
 
 
-<script type="text/javascript">
+                <!--版本趋势-->
+                <div style="height: 45px;margin-top: 24px;">
+                    <div style="position: absolute;margin-top: 9px;margin-left: 27px">
+                        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">测试执行明细</span>
+                    </div>
+                </div>
 
-    $(function () {
+                <div style="margin-left: 25px;margin-top: 18px;">
+                    <table class="table table-responsive" id="test_data" style="max-width: 98%">
+                    </table>
+                </div>
 
-        // 1.加载日期插件
-        laydate.render({
-            elem: '#test10'
-        });
+            </div>
 
-
-        // 2.加载报表
-        show_chart();
-
-
-        // 3.加载执行结果
-
-        load_data();
+            <script type="text/javascript">
 
 
-    });
+                $(function () {
+
+                    $("#header").load("header.html");
+                    $("#side").load("side.html");
+                    $("#footer").load("footer.html");
+
+                    // 1.加载日期插件
+                    laydate.render({
+                        elem: '#test10'
+                    });
+
+                    // 2.加载报表
+                    show_chart();
 
 
-    function load_data() {
-        $.post("{{ url_for('test_data') }}", {
-            platform: 'xzq',
-            testDate: '2021-04-20'
+                    // 3.加载执行结果
 
-        }, function (result) {
-            if (result.code == 200) {
-                var html = template('testTemplate', result);
-                document.getElementById('test_data').innerHTML = html;
-            }
-
-        })
-
-    }
-
-    function show_chart() {
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'), 'macarons');
-        var option = get_chart_option()
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-    }
+                    load_data();
+                });
 
 
-    function get_chart_option() {
-        var option = {
-            title: {
-                // text: '某站点用户访问来源',
-                // subtext: '纯属虚构',
-                left: 'center'
-            },
-            tooltip: {
-                trigger: 'item'
-            },
-            // legend: {
-            //     orient: 'vertical',
-            //     left: 'left',
-            // },
-            series: [
-                {
-                    name: '访问来源',
-                    type: 'pie',
-                    radius: '50%',
-                    data: [
-                        {value: 1048, name: '搜索引擎'},
-                        {value: 735, name: '直接访问'},
-                        {value: 580, name: '邮件营销'},
-                        {value: 484, name: '联盟广告'},
-                        {value: 300, name: '视频广告'}
-                    ],
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                function load_data() {
+                    $.post("{{ url_for('test_data') }}", {
+                        platform: 'xzq',
+                        testDate: '2021-04-20'
+
+                    }, function (result) {
+                        if (result.code == 200) {
+                            var html = template('testTemplate', result);
+                            document.getElementById('test_data').innerHTML = html;
                         }
-                    }
+
+                    })
+
                 }
-            ]
-        };
-        return option;
-    }
+
+                function show_chart() {
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart = echarts.init(document.getElementById('main'), 'customed');
+                    var option = get_chart_option()
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
 
 
-</script>
+                function get_chart_option() {
+                    var option = {
+                        title: {
+                            // text: '某站点用户访问来源',
+                            // subtext: '纯属虚构',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        // legend: {
+                        //     orient: 'vertical',
+                        //     left: 'left',
+                        // },
+                        series: [
+                            {
+                                name: '访问来源',
+                                type: 'pie',
+                                radius: '50%',
+                                data: [
+                                    {value: 1048, name: '搜索引擎'},
+                                    {value: 735, name: '直接访问'},
+                                    {value: 580, name: '邮件营销'},
+                                    {value: 484, name: '联盟广告'},
+                                    {value: 300, name: '视频广告'}
+                                ],
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    return option;
+                }
+
+
+            </script>
+            <!-- 公司信息 -->
+            <div id="footer"></div>
+        </div>
+
+    </div>
+</div>
+
 {% raw %}
 <script id="testTemplate" type="text/html">
 
     <div>
-        <tr style="background-color: #aaa;height: 50px;font-weight: bold;font-family: 'Microsoft YaHei UI';color: black">
+        <tr style="height: 50px;">
             <th>用例编号</th>
             <th>用例名称</th>
             <th>环境号</th>
@@ -186,4 +220,5 @@
 </script>
 {% endraw %}
 </body>
+
 </html>
