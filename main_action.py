@@ -19,13 +19,44 @@ app = Flask(__name__)
 
 @app.route('/index.html')
 def index():
+    """
+    主页
+    :return:
+    """
     return render_template("index.html")
 
 
-@app.route('/test.html')
-def test():
-    return render_template("总揽.html")
+@app.route('/case.html')
+def case():
+    """
+    用例
+    :return:
+    """
+    return render_template("case.html")
 
+
+@app.route('/monitoring.html')
+def monitoring():
+    return render_template("monitoring.html")
+
+
+@app.route('/conclusion.html')
+def conclusion():
+    return render_template("conclusion.html")
+
+
+# ######## version 1.1 #########
+@app.route('/conclusion_bak.html')
+def conclusion_bak():
+    return render_template("conclusion_bak.html")
+
+
+@app.route('/index_bak.html')
+def index_bak():
+    return render_template("index_bak.html")
+
+
+# ######## version 1.1 #########
 
 @app.route('/page')
 def page():

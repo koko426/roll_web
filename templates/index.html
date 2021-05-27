@@ -6,30 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>自动化检测平台</title>
-    <link rel="shortcut icon" href="{{ url_for('static',filename='images/logo.gif') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static',filename ='css/reset.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename ='css/index.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='font/iconfont.css') }}">
+    <!--引入公共组件-->
+    <script type="text/javascript" src="{{ url_for('static',filename ='css/commonCSS.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/commoms.js') }}"></script>
 
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery-2.2.4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/jquery.slimscroll.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-side-menu.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='js/fk-common.js') }}"></script>
-
-
-    <link href="{{ url_for('static',filename ='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static',filename ='bootstrap/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static',filename ='bootstrap/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static',filename ='bootstrap/css/style.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static',filename ='css/easy.css') }}" rel="stylesheet">
-
-    <link href="{{ url_for('static',filename ='bootstrap/css/animate.min.css') }}" rel="stylesheet">
 
     <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/echarts.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/custom.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/macarons.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='bootstrap/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='bootstrap/laydate/laydate.js') }}"></script>
+
     <style>
         .quotabox {
             height: 130px;
@@ -140,21 +125,6 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- <table>
-                         <tr>
-                             <td>
-                                 <div class="quota" style="height: 80px;background:#33CC66;"></div>
-                             </td>
-                             <td>
-                             </td>
-                             <td>
-                                 <div class="quota" style="height: 80px;background-color: #0a6aa1"></div>
-                             </td>
-                             <td>
-                                 <div class="quota" style="height: 80px;background-color: #0a6aa1"></div>
-                             </td>
-                         </tr>
-                     </table>-->
 
 
                 </div>

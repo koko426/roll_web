@@ -7,29 +7,43 @@
     height: 48px;    margin-left: 256px;">
 
 
-    <div class="fl" style="margin-left: 24px;">
-        <a href="index.html">
-            <span class="fk-home"></span>
-        </a>
-        <a class="fk-refreshbtn" href="">
-            <span class="fk-refresh"></span>
-            刷新
-        </a>
-    </div>
-    <div class="fr" style="margin-right: 35px;">
-        <div class="fk-sayhello">
-            <span class="fk-username">毕发财，</span>你好！今天是 2021 年 5 月 20 日 星期三
+        <div class="fl" style="margin-left: 24px;">
+            <a href="index.html">
+                <span class="fk-home"></span>
+            </a>
+            <a class="fk-refreshbtn" href="">
+                <span class="fk-refresh"></span>
+                刷新
+            </a>
         </div>
-        <div class="fk-tips">
+        <div class="fr" style="margin-right: 35px;">
+            <div class="fk-sayhello">
+                <!--<span class="fk-username">毕发财，</span>--><span id="nowtime">你好！今天是 2021 年 5 月 20 日 星期三</span>
+            </div>
+            <div class="fk-tips">
                     <span class="fk-tipsicon pr">
                         <i class="fk-reddot pa"></i>
                     </span>
-        </div>
-        <div class="fk-headportrait">
+            </div>
+            <div class="fk-headportrait">
                     <span>
                         <img src="/static/images/headPortrait.png" alt="">
                     </span>
+            </div>
         </div>
     </div>
-        </div>
 </div>
+<script>
+    function gettime() {
+        var time = new Date();
+        var arr = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
+        var hour = time.getHours();
+        var min = time.getMinutes();
+        var sec = time.getSeconds();
+        var madetime = time.getFullYear() + " 年 " + (time.getMonth() + 1) + " 月 " + time.getDate() + " 日 " + arr[time.getDay()] + "  " + hour + (min < 10 ? ":0" : ":") + min + (sec < 10 ? ":0" : ":") + sec + (hour < 12 ? " am" : " pm");
+        document.getElementById("nowtime").innerText = '你好！今天是 '+madetime;
+    }
+
+    gettime();//显示第一秒的时间
+    setInterval("gettime()", 1000);
+</script>
