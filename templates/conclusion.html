@@ -50,7 +50,7 @@
                 <!--关键指标-->
                 <div style="height: 45px;margin-top: 20px;">
                     <div style="position: absolute;margin-top: 9px;margin-left: 27px">
-                        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">测试日期 2021-04-20</span>
+                        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">测试日期 <span id="currentDate">2021-05-20</span></span>
                     </div>
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
@@ -205,6 +205,8 @@
                         console.log(result);
                         if (result.code == 200) {
 
+
+                            document.getElementById('currentDate').innerText=test_date;
                             //更新第一列的值
                             option.series[0].data = result.series_list;
                             //更新echart
