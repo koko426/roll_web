@@ -4,3 +4,4 @@ document.write("<script type=\"text/javascript\" src=\"/static/js/fk-side-menu.j
 document.write("<script type=\"text/javascript\" src=\"/static/js/fk-common.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"/static/bootstrap/js/bootstrap.min.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"/static/bootstrap/laydate/laydate.js\"></script>");
+document.write("<script type=\"text/javascript\" src=\"/static/bootstrap/js/plugins/layer/layer.js\"></script>");

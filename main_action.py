@@ -1,8 +1,8 @@
 # _*_ coding:UTF-8 _*_
 """
 __title__=''
-__author__='Administrator'
-__mtime__='2021/4/21'
+__author__='wukeke'
+__mtime__='2021/5/20'
 # code is far away from bugs with the god animal protecting
   I love animals. They taste delicious. 
 
@@ -10,11 +10,14 @@ __mtime__='2021/4/21'
 import math
 
 import flask
-from flask import render_template, g, request, jsonify
+from flask import render_template, g, request, jsonify, abort
 
 from flask import Flask
 
+from roll_controller import simple_page
+
 app = Flask(__name__)
+app.register_blueprint(simple_page)
 
 
 @app.route('/index.html')
@@ -79,71 +82,10 @@ def footer():
     return render_template("common/footer.html")
 
 
-@app.route("/test_data", methods=['POST'])
-def test_data():
-    if request.method == 'POST':
-        platform = request.form['platform']
-        testDate = request.form['testDate']
-    dataList = [{'case_num': '11111', 'case_name': '哈哈哈哈', 'env': '32', 'env_version': 'xxxxxxx', 'exec_num': '10',
-                 'result': '通过', 'conclusion': '该版本延期测试'},
-                {'case_num': '2222', 'case_name': '哈哈哈哈', 'env': '32', 'env_version': 'xxxxxxx', 'exec_num': '10',
-                 'result': '通过', 'conclusion': '该版本延期测试'},
-                {'case_num': '3333', 'case_name': '哈哈哈哈', 'env': '32', 'env_version': 'xxxxxxx', 'exec_num': '10',
-                 'result': '不通过', 'conclusion': '该版本延期测试'},
-                {'case_num': '4444', 'case_name': '哈哈哈哈', 'env': '32', 'env_version': 'xxxxxxx', 'exec_num': '10',
-                 'result': '通过', 'conclusion': '该版本延期测试'},
-                {'case_num': '5555', 'case_name': '哈哈哈哈', 'env': '32', 'env_version': 'xxxxxxx', 'exec_num': '10',
-                 'result': '通过', 'conclusion': '该版本延期测试'},
-                {'case_num': '66666', 'case_name': '哈哈哈哈', 'env': '32', 'env_version': 'xxxxxxx', 'exec_num': '10',
-                 'result': '通过', 'conclusion': '该版本延期测试'}
-                ]
-    datas = {
-        'dataList': dataList,
-        'code': 200,
-
-    }
-    return jsonify(datas)
-
-
-@app.route("/case_data", methods=['POST'])
-def case_data():
-    if request.method == 'POST':
-        platform = request.form['platform']
-        testDate = request.form['testDate']
-    dataList = [
-        {'id': 1, 'case_num': 'DSN_EzTS_5_1_3', 'case_name': '申报一批订单', 'exec_num': '10'},
-        {'id': 2, 'case_num': 'DSN_EzTS_5_1_4', 'case_name': '哈哈哈哈', 'exec_num': '10'},
-        {'id': 3, 'case_num': '3333', 'case_name': '哈哈哈哈', 'exec_num': '10'},
-        {'id': 4, 'case_num': '4444', 'case_name': '哈哈哈哈', 'exec_num': '10'},
-        {'id': 5, 'case_num': '5555', 'case_name': '哈哈哈哈', 'exec_num': '10'},
-        {'id': 6, 'case_num': '6666', 'case_name': '哈哈哈哈', 'exec_num': '10'}
-    ]
-    datas = {
-        'dataList': dataList,
-        'code': 200,
-
-    }
-    return jsonify(datas)
-
-
-@app.route("/scene_data", methods=['POST'])
-def scene_data():
-    if request.method == 'POST':
-        id = request.form['id']
-    sceneList = [
-        {'scene_name': '场景' + str(id), 'scene_text': '申报一批订单，覆盖配置的业务，产品子类型及账户类型' + str(id)},
-        {'scene_name': '场景' + str(id), 'scene_text': '哈哈哈哈' + str(id)},
-        {'scene_name': '场景' + str(id), 'scene_text': '哈哈哈哈' + str(id)},
-        {'scene_name': '场景' + str(id), 'scene_text': '哈哈哈哈' + str(id)},
-        {'scene_name': '场景' + str(id), 'scene_text': '哈哈哈哈' + str(id)},
-        {'scene_name': '场景' + str(id), 'scene_text': '哈哈哈哈' + str(id)}
-    ]
-    datas = {
-        'sceneList': sceneList,
-        'code': 200,
-
-    }
-    return jsonify(datas)
+@app.errorhandler(404)
+def page_not_found(e):
+    print("444444444444444444444")
+    return render_template('common/404.html'),404
 
 
 @app.route("/user_list", methods=['POST', 'GET'])

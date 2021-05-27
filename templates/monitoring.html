@@ -1,10 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>实时监测</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动化检测平台</title>
+    <!--引入公共组件-->
+    <script type="text/javascript" src="{{ url_for('static',filename ='css/commonCSS.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/commoms.js') }}"></script>
+
+
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/echarts.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/macarons.js') }}"></script>
+
+
+    <style>
+        .quotabox {
+            height: 130px;
+            display: flex;
+            flex-direction: row;
+            padding: 0 25px;
+        }
+
+        .quota {
+            flex: 1;
+            height: 100%;
+            background-color: #e4f1fdeb;
+            /*background-color: #e4b9b9;*/
+            /*border:1px solid #e7eaec;*/
+            border: 1px solid white;
+            border-right: 10px solid #fff;
+        }
+
+        .quota:last-child {
+            border-right: 0px solid #fff;
+        }
+
+        .quota > ul {
+            list-style: none;
+            position: absolute;
+            margin-top: 5px;
+            margin-left: 14px;
+        }
+
+        .quota > ul > li {
+            margin: 10px 7px
+        }
+    </style>
 </head>
+
 <body>
-实时监测
+<div class="fk-content pr">
+    <!-- 顶部 -->
+    <div id="header"></div>
+    <div class="fk-cont">
+        <!-- 左边导航 -->
+        <div id="side"></div>
+        <!-- 主体部分 -->
+        <div class="fk-contentright">
+
+            <!--选择框-->
+            <div class="form-group" style="margin-top: 5px">
+                <div class="input-group">
+                    <select id="project_tab" data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2"
+                            onchange="load_test_date(this.value)">
+                        <option value="0">请选择项目</option>
+                        <option value="xzq" hassubinfo="true">新债券</option>
+                        <option value="bpc" hassubinfo="true">批处理</option>
+                        <option value="roll" hassubinfo="true">滚动</option>
+                    </select>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-calendar-times-o" style="margin-left: 4px;margin-top:10px;position: absolute"></i>
+
+
+                    <input type="text" class="myselect" style="width: 240px;text-align: center" placeholder="选择测试日期"
+                           id="test18">
+
+                </div>
+            </div>
+            <!--选择框 end-->
+
+            <div style="border: 1px solid #e7eaec;box-shadow: 0 0 8px 2px #eee">
+                <!--关键指标-->
+                <div style="height: 45px;margin-top: 20px;">
+                    <div style="position: absolute;margin-top: 9px;margin-left: 27px">
+                        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">当前测试信息</span>
+                    </div>
+                </div>
+                <div class="quotabox">
+                    <div class="quota">
+                        <ul>
+                            <li>用例总数</li>
+                            <li><span style="color: black;font-weight: bolder;font-size: 25px">20</span></li>
+                            <li>上版本&nbsp;<i class="fa fa-long-arrow-up"
+                                            style="color: #55a532;font-weight: lighter;font-size: 18px"></i>&nbsp;0.02%
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="quota">
+                        <ul>
+                            <li>历史平均通过率</li>
+                            <li><span style="color: black;font-weight: bolder;font-size: 25px">88.88%</span>
+                            </li>
+                            <li>上版本&nbsp;<i class="fa fa-long-arrow-down"
+                                            style="color: firebrick;font-weight: lighter;font-size: 18px"></i>&nbsp;0.02%
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="quota">
+                        <ul>
+                            <li>执行总次数</li>
+                            <li><span style="color: black;font-weight: bolder;font-size: 25px">1024</span></li>
+                            <li>上轮次&nbsp;<i class="fa fa-long-arrow-up"
+                                            style="color: #55a532;font-weight: lighter;font-size: 18px"></i>&nbsp;0.02%
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="quota">
+                        <ul>
+                            <li>测试总版本数</li>
+                            <li><span style="color: black;font-weight: bolder;font-size: 25px">88.88%</span>
+                            </li>
+                            <li>上版本&nbsp;<i class="fa fa-long-arrow-down"
+                                            style="color: firebrick;font-weight: lighter;font-size: 18px"></i>&nbsp;1
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+                <!--关键指标end-->
+
+
+                <!--版本趋势-->
+                <div style="height: 45px;margin-top: 24px;">
+                    <div style="position: absolute;margin-top: 9px;margin-left: 27px">
+                        <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">当前测试详情</span>
+                    </div>
+                </div>
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="main" style="height:400px;margin-top: 18px"></div>
+            </div>
+
+            <script type="text/javascript">
+                // 定义全局变量
+                var _lay_d = null;//时间插件
+                var myChart = null;//echart对象
+                var option = null;//渲染数据对象
+                $(function () {
+
+                    $("#header").load("header.html");
+                    $("#side").load("side.html");
+                    $("#footer").load("footer.html");
+
+                    // 1.加载日期插件
+                    var mark = {
+                        '0-10-14': '生日',
+                        '0-12-31': '跨年', //每年的日期
+                        '0-6-01': '上线', //每月某天
+                        '0-5-31': '交付',
+                        '2017-8-15': '', //如果为空字符，则默认显示数字+徽章
+                        '2099-10-14': '呵呵'
+                    };
+
+                    load_date(mark);
+
+                    // 2.加载报表
+                    show_chart();
+                });
+
+                /**
+                 * 根据项目，加载对应的测试时间列表，将列表绑定到日历
+                 * @param project_name
+                 */
+                function load_test_date(project_name) {
+                    if (project_name != 0) {
+                        $.post("{{ url_for('simple_page.get_date_by_project') }}", {
+                            project_name: project_name
+
+                        }, function (result) {
+                            if (result.code == 200) {
+                                var data_list = result.date_list;
+                                var mark = {}
+                                for (let i = 0; i < data_list.length; i++) {
+
+                                    mark[data_list[i]] = '测试';
+                                }
+                                //修改测试日期
+                                _lay_d.config.mark = mark;
+                                //使修改后的数据生效
+                                $('.layui-icon laydate-icon laydate-prev-m').trigger("click");//上一月
+                                $('.layui-icon laydate-icon laydate-next-m').trigger("click");//下一月
+
+                            } else {
+                                return layer.msg(result.msg);
+                            }
+
+
+                        })
+                    } else {
+                        return layer.msg("请先选择一个项目！");
+                    }
+
+                }
+
+                /**
+                 * 初始化，加载时间日历插件
+                 * @param mark
+                 */
+                function load_date(mark) {
+
+                    //自定义重要日
+                    _lay_d = laydate.render({
+                        elem: '#test18',
+                        //开启公历节日
+                        calendar: true
+                        , mark: mark
+                        , done: function (value, date) {
+                            if (date.year === 2021 && date.month === 6 && date.date === 1) { //点击2017年8月15日，弹出提示语
+                                alert('这天数据异常,无需测试');
+                            } else {
+                                //    点击时间后的事件，查询echart数据
+
+                                var project_name = $("#project_tab").val();
+                                var test_date = $("#test18").val();
+                                if (project_name == 0) {
+                                    return layer.msg("请先选择一个项目！");
+                                } else {
+                                    // console.log("查询echart数据:" + test_date);
+                                    reload_chart_data(project_name, test_date);
+                                }
+
+                            }
+                        }
+                    });
+
+                }
+
+                /**
+                 * 重新渲染echart最新数据
+                 **/
+                function reload_chart_data(project_name, test_date) {
+
+                    $.post("{{ url_for('simple_page.reload_chart_data') }}", {
+                        project_name: project_name,
+                        test_date:test_date
+
+                    }, function (result) {
+                        if (result.code == 200) {
+
+                            //更新第一列的值
+                            option.series[0].data=result.series_list;
+                            option.series[4].data=result.series_list04;
+                            //更新echart
+                            myChart.setOption(option);
+
+                        } else {
+                            return layer.msg(result.msg);
+                        }
+
+                    })
+                }
+
+                /**
+                 * echart图表初始化
+                 */
+                function show_chart() {
+                    // 基于准备好的dom，初始化echarts实例
+                    myChart = echarts.init(document.getElementById('main'), 'customed');
+                    option = get_chart_option()
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
+
+                /**
+                 * 获取数据option
+                 */
+                function get_chart_option() {
+                    var option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '百度', '谷歌', '必应', '其他']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis: [
+                            {
+                                type: 'category',
+                                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: 'value'
+                            }
+                        ],
+                        series: [
+                            {
+                                name: '直接访问',
+                                type: 'bar',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [320, 332, 301, 334, 390, 330, 320]
+                            },
+                            {
+                                name: '邮件营销',
+                                type: 'bar',
+                                stack: '广告',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [120, 132, 101, 134, 90, 230, 210]
+                            },
+                            {
+                                name: '联盟广告',
+                                type: 'bar',
+                                stack: '广告',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [220, 182, 191, 234, 290, 330, 310]
+                            },
+                            {
+                                name: '视频广告',
+                                type: 'bar',
+                                stack: '广告',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [150, 232, 201, 154, 190, 330, 410]
+                            },
+                            {
+                                name: '搜索引擎',
+                                type: 'bar',
+                                data: [862, 1018, 964, 1026, 1679, 1600, 1570],
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                markLine: {
+                                    lineStyle: {
+                                        type: 'dashed'
+                                    },
+                                    data: [
+                                        [{type: 'min'}, {type: 'max'}]
+                                    ]
+                                }
+                            },
+                            {
+                                name: '百度',
+                                type: 'bar',
+                                barWidth: 5,
+                                stack: '搜索引擎',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [620, 732, 701, 734, 1090, 1130, 1120]
+                            },
+                            {
+                                name: '谷歌',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [120, 132, 101, 134, 290, 230, 220]
+                            },
+                            {
+                                name: '必应',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [60, 72, 71, 74, 190, 130, 110]
+                            },
+                            {
+                                name: '其他',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                data: [62, 82, 91, 84, 109, 110, 120]
+                            }
+                        ]
+                    };
+                    return option;
+                }
+
+
+            </script>
+            <!-- 公司信息 -->
+            <div id="footer"></div>
+        </div>
+
+    </div>
+</div>
+
+
 </body>
+
 </html>

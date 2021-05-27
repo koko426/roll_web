@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>404-对不起！您访问的页面不存在</title>
+    <link rel="shortcut icon" href="{{ url_for('static',filename ='images/logo.gif') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename ='font/iconfont.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/commoms.js') }}"></script>
+    <style type="text/css">
+
+        .head404 {
+            width: 580px;
+            height: 234px;
+            margin: 50px auto 0 auto;
+            background: url(/static/images/head404.png) no-repeat;
+        }
+
+        .txtbg404 {
+            width: 499px;
+            height: 169px;
+            margin: 10px auto 0 auto;
+            background: url(/static/images/txtbg404.png) no-repeat;
+        }
+
+        .txtbg404 .txtbox {
+            width: 390px;
+            position: relative;
+            top: 30px;
+            left: 60px;
+            color: #eee;
+            font-size: 13px;
+        }
+
+        .txtbg404 .txtbox p {
+            margin: 5px 0;
+            line-height: 18px;
+        }
+
+        .txtbg404 .txtbox .paddingbox {
+            padding-top: 15px;
+        }
+
+        .txtbg404 .txtbox p a {
+            color: #eee;
+            text-decoration: none;
+        }
+
+        .txtbg404 .txtbox p a:hover {
+            color: #FC9D1D;
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+<body  bgcolor="#494949">
+<div class="fk-content pr">
+    <!-- 顶部 -->
+    <div id="header"></div>
+    <div class="fk-cont">
+        <!-- 左边导航 -->
+        <div id="side"></div>
+        <!-- 主体部分 -->
+        <div class="fk-contentright">
+
+            <div class="head404"></div>
+
+            <div class="txtbg404">
+
+                <div class="txtbox">
+
+                    <p>对不起，您请求的页面不存在、或已被删除、或暂时不可用</p>
+
+                    <p class="paddingbox">请点击以下链接继续浏览网页</p>
+
+                    <p>》<a style="cursor:pointer" onclick="history.back()">返回上一页面</a></p>
+
+                    <p>》<a href="index.html">返回网站首页</a></p>
+
+                </div>
+
+            </div>
+            <div id="footer"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        $("#header").load("header.html");
+        $("#side").load("side.html");
+        $("#footer").load("footer.html");
+
+    });
+</script>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>用例</title>
+    <title>自动化检测平台</title>
     <!--引入公共组件-->
     <script type="text/javascript" src="{{ url_for('static',filename ='css/commonCSS.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='js/commoms.js') }}"></script>
@@ -54,16 +54,16 @@
             <!--选择框-->
             <div class="form-group" style="margin-top: 5px">
                 <div class="input-group">
-                    <select data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2">
-                        <option value="">请选择项目</option>
-                        <option value="110000" hassubinfo="true">新债券</option>
-                        <option value="120000" hassubinfo="true">批处理</option>
-                        <option value="130000" hassubinfo="true">滚动</option>
+                    <select id="project_tab"   onchange="load_test_date(this.value)" data-placeholder="选择项目" style="width: 240px" class="myselect" tabindex="2">
+                        <option value="0">请选择项目</option>
+                        <option value="xzq" hassubinfo="true">新债券</option>
+                        <option value="bpc" hassubinfo="true">批处理</option>
+                        <option value="roll" hassubinfo="true">滚动</option>
                     </select>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <i class="fa fa-calendar-times-o" style="margin-left: 4px;margin-top:10px;position: absolute"></i>
                     <input type="text" class="myselect" style="width: 240px;text-align: center" placeholder="选择测试日期"
-                           id="test10">
+                           id="test18">
 
                 </div>
             </div>
@@ -82,23 +82,101 @@
 
             <script type="text/javascript">
                 last_id = 0;
-
+                // 定义全局变量
+                var _lay_d = null;//时间插件
                 $(function () {
 
                     $("#header").load("header.html");
                     $("#side").load("side.html");
                     $("#footer").load("footer.html");
 
-                    // 1.加载日期插件
-                    laydate.render({
-                        elem: '#test10'
-                    });
+                     // 1.加载日期插件
+                    var mark = {
+                        '0-10-14': '生日',
+                        '0-12-31': '跨年', //每年的日期
+                        '0-6-01': '上线', //每月某天
+                        '0-5-31': '交付',
+                        '2017-8-15': '', //如果为空字符，则默认显示数字+徽章
+                        '2099-10-14': '呵呵'
+                    };
 
-                    load_case_data();
+                    load_date(mark);
+
+                    //加载用例数据
+                    load_case_data('','');
 
                 });
 
+                /**
+                 * 初始化，加载时间日历插件
+                 * @param mark
+                 */
+                function load_date(mark) {
 
+                    //自定义重要日
+                    _lay_d = laydate.render({
+                        elem: '#test18',
+                        //开启公历节日
+                        calendar: true
+                        , mark: mark
+                        , done: function (value, date) {
+                            if (date.year === 2021 && date.month === 6 && date.date === 1) { //点击2017年8月15日，弹出提示语
+                                alert('这天数据异常,无需测试');
+                            } else {
+                                //    点击时间后的事件，查询echart数据
+
+                                var project_name = $("#project_tab").val();
+                                var test_date = $("#test18").val();
+                                if (project_name == 0) {
+                                    return layer.msg("请先选择一个项目！");
+                                } else {
+                                    load_case_data(project_name,test_date);
+                                }
+
+                            }
+                        }
+                    });
+
+                }
+
+                /**
+                 * 根据项目，加载对应的测试时间列表，将列表绑定到日历
+                 * @param project_name
+                 */
+                function load_test_date(project_name) {
+                    if (project_name != 0) {
+                        $.post("{{ url_for('simple_page.get_date_by_project') }}", {
+                            project_name: project_name
+
+                        }, function (result) {
+                            if (result.code == 200) {
+                                var data_list = result.date_list;
+                                var mark = {}
+                                for (let i = 0; i < data_list.length; i++) {
+
+                                    mark[data_list[i]] = '测试';
+                                }
+                                //修改测试日期
+                                _lay_d.config.mark = mark;
+                                //使修改后的数据生效
+                                $('.layui-icon laydate-icon laydate-prev-m').trigger("click");//上一月
+                                $('.layui-icon laydate-icon laydate-next-m').trigger("click");//下一月
+
+                            } else {
+                                return layer.msg(result.msg);
+                            }
+
+
+                        })
+                    } else {
+                        return layer.msg("请先选择一个项目！");
+                    }
+
+                }
+                /**
+                 *
+                 * @param id
+                 */
                 function load_data(id) {
                     //    上次数据状态
                     var cname_last = $('#right_' + last_id).attr("class");
@@ -132,7 +210,7 @@
                 }
 
                 function load_scene_data(id) {
-                    $.post("{{ url_for('scene_data') }}", {
+                    $.post("{{ url_for('simple_page.scene_data') }}", {
                         id: id
 
                     }, function (result) {
@@ -144,10 +222,14 @@
                     })
                 }
 
-                function load_case_data() {
-                    $.post("{{ url_for('case_data') }}", {
-                        platform: 'xzq',
-                        testDate: '2021-04-20'
+                /**
+                 * 加载用例数据
+                 */
+
+                function load_case_data(project_name,test_date) {
+                    $.post("{{ url_for('simple_page.case_data') }}", {
+                        project_name: project_name,
+                        test_date: test_date
 
                     }, function (result) {
                         if (result.code == 200) {

@@ -8,3 +8,4 @@ document.write("<link href=\"/static/bootstrap/css/plugins/chosen/chosen.css\" r
 document.write("<link href=\"/static/bootstrap/css/style.min.css\" rel=\"stylesheet\">");
 document.write("<link href=\"/static/css/easy.css\" rel=\"stylesheet\">");
 document.write("<link href=\"/static/bootstrap/css/animate.min.css\" rel=\"stylesheet\">");
+document.write("<link href=\"/static/bootstrap/js/plugins/layer/theme/default/layer.css\" rel=\"stylesheet\">");
