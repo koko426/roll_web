@@ -5,30 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>自动化检测平台</title>
+    <title>自动化检测平台-监控</title>
     <!--引入公共组件-->
     <script type="text/javascript" src="{{ url_for('static',filename ='css/commonCSS.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename ='js/commoms.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename ='css/process.css') }}">
 
 
-    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/echarts.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/custom.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static',filename ='echart5.1.1/theme/macarons.js') }}"></script>
-
+    <script type="text/javascript" src="{{ url_for('static',filename ='js/template-web.js') }}"></script>
 
     <style>
         .quotabox {
             height: 130px;
-            /*display: flex;*/
-            /*flex-direction: row;*/
+            display: flex;
+            flex-direction: row;
             padding: 0 25px;
-            background-color: #e4b9b9;
+            /*background-color: #e4b9b9;*/
         }
 
         .quota {
             flex: 1;
             height: 100%;
-            background-color: #e4f1fdeb;
+            /*background-color: #e4f1fdeb;*/
             /*background-color: #e4b9b9;*/
             /*border:1px solid #e7eaec;*/
             border: 1px solid white;
@@ -39,16 +37,61 @@
             border-right: 0px solid #fff;
         }
 
-        .quota > ul {
-            list-style: none;
-            position: absolute;
-            margin-top: 5px;
-            margin-left: 14px;
+        .quota > div {
+            height: 50%;
+
+        }
+
+        .quota_title {
+            float: left;
+            width: 33%
+        }
+
+        .quota_title > span {
+            float: left;
+            margin: 13px 1px;
+            font-family: 'STHupo,Verdana,Sans-serif';
+            font-weight: bolder;
+            font-size: 16px;
+            color: #2f4050;
         }
 
         .quota > ul > li {
             margin: 10px 7px
         }
+
+        /*列表中的进度*/
+        .Bar, .Bars {
+            position: relative;
+            width: 200px;
+            /* 宽度 */
+            /*border: 1px solid #dde2c9;*/
+            padding: 1px;
+        }
+
+        .Bar div, .Bars div {
+            display: block;
+            position: relative;
+            background: #afffb0; /* 进度条背景颜色 */
+            color: #333333;
+            height: 20px; /* 高度 */
+            line-height: 20px;
+            /* 必须和高度一致，文本才能垂直居中 */
+             border-radius:7px;
+        }
+
+        .Bars div {
+            background: #090
+        }
+
+        .Bar div span, .Bars div span {
+            position: absolute;
+            width: 200px;
+            /* 宽度 */
+            text-align: center;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 
@@ -85,35 +128,107 @@
 
             <div style="border: 1px solid #e7eaec;box-shadow: 0 0 8px 2px #eee">
                 <!--关键指标-->
-                <div style="height: 45px;margin-top: 20px;">
+                <div style="height: 45px;margin-top: 0px;background-color: gainsboro">
                     <div style="position: absolute;margin-top: 9px;margin-left: 27px">
                         <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">当前测试信息</span>
                     </div>
                 </div>
                 <div class="quotabox">
+                    <div class="quota">
+                        <div>
+                            <div class="quota_title"><span>版本:XTS_1.3.0</span></div>
+                            <div class="quota_title"><span>开始时间:12:12:22</span></div>
+                            <div class="quota_title"><span>完成用例:6</span></div>
+                        </div>
+                        <div>
+                            <div class="quota_title"><span>测试环境:15</span></div>
+                            <div class="quota_title"><span>测试伦次:第2轮</span></div>
+                            <div class="quota_title"><span>产品覆盖:88/100</span></div>
 
-                <p>111111</p>
-                <p>222222</p>
+                        </div>
+                    </div>
+                    <div id="right_process" class="quota">
+
+                        <!--进度条-->
+                        <div class="mature-progress" style="width: 300px">
+                            <div class="mature-progress-bottom">
+                                <div class="mature-progress-box v0" id="mamture_progress">
+                                    <dl>
+                                        <dt>0</dt>
+                                        <dd><span class="member-ico v0"></span>开始</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>200</dt>
+                                        <dd><span class="member-ico v1"></span>盘前</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>1000</dt>
+                                        <dd><span class="member-ico v2"></span>盘中</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>5000</dt>
+                                        <dd><span class="member-ico v3"></span>盘后</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>10000</dt>
+                                        <dd><span class="member-ico v4"></span>完成</dd>
+                                    </dl>
+                                    <div class="progress-box" id="progress_content" data-progress="8000">
+                                        <i class="progress-box-1" style="width: 0px;"></i>
+                                        <!-- &lt;!&ndash; 200 &ndash;&gt;-->
+                                        <i class="progress-box-2" style="width: 0px;"></i>
+                                        <!-- &lt;!&ndash; 1000 &ndash;&gt;-->
+                                        <i class="progress-box-3" style="width: 0px;"></i>
+                                        <!-- &lt;!&ndash; 5000 &ndash;&gt;-->
+                                        <i class="progress-box-4" style="width: 0px;"><span>等待批处理完成</span></i>
+                                        <!-- &lt;!&ndash; 10000 &ndash;&gt;-->
+                                        <i class="progress-box-5"></i>
+                                        <!-- &lt;!&ndash; 10000+ &ndash;&gt;-->
+                                    </div>
+                                </div>
+                                <div class="mature-progress-box bgtwos">
+                                    <dl>
+                                        <dt></dt>
+                                    </dl>
+                                    <dl>
+                                        <dt></dt>
+                                    </dl>
+                                    <dl>
+                                        <dt></dt>
+                                    </dl>
+                                    <dl>
+                                        <dt></dt>
+                                    </dl>
+                                    <dl>
+                                        <dt></dt>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <!--进度条end-->
+                    </div>
+
 
                 </div>
-                <!--关键指标end-->
+                <!--当前测试信息end-->
 
 
                 <!--版本趋势-->
-                <div style="height: 45px;margin-top: 24px;">
+                <div style="height: 45px;margin-top: 2px;background-color: gainsboro">
                     <div style="position: absolute;margin-top: 9px;margin-left: 27px">
                         <span style="font-family: 'STHupo,Verdana,Sans-serif';font-weight: bolder;font-size: 18px;color: black;">当前测试详情</span>
                     </div>
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-                <div id="main" style="height:400px;margin-top: 18px"></div>
+                <div style="margin-left: 25px;margin-top: 18px;">
+                    <table class="table table-responsive" id="test_data" style="max-width: 98%">
+                    </table>
+                </div>
             </div>
 
             <script type="text/javascript">
                 // 定义全局变量
                 var _lay_d = null;//时间插件
-                var myChart = null;//echart对象
-                var option = null;//渲染数据对象
                 $(function () {
 
                     $("#header").load("header.html");
@@ -132,9 +247,28 @@
 
                     load_date(mark);
 
-                    // 2.加载报表
-                    show_chart();
+                    // 3.加载执行结果 列表
+
+                    load_data('', '')
                 });
+
+                /**
+                 * 首次初始化列表
+                 * */
+                function load_data(project_name, test_date) {
+                    $.post("{{ url_for('simple_page.monitor_data') }}", {
+                        project_name: project_name,
+                        test_date: test_date
+
+                    }, function (result) {
+                        if (result.code == 200) {
+                            var html = template('testTemplate', result);
+                            document.getElementById('test_data').innerHTML = html;
+                        }
+
+                    })
+
+                }
 
                 /**
                  * 根据项目，加载对应的测试时间列表，将列表绑定到日历
@@ -195,174 +329,13 @@
                                     return layer.msg("请先选择一个项目！");
                                 } else {
                                     // console.log("查询echart数据:" + test_date);
-                                    reload_chart_data(project_name, test_date);
+                                    load_data(project_name, test_date);
                                 }
 
                             }
                         }
                     });
 
-                }
-
-                /**
-                 * 重新渲染echart最新数据
-                 **/
-                function reload_chart_data(project_name, test_date) {
-
-                    $.post("{{ url_for('simple_page.reload_chart_data') }}", {
-                        project_name: project_name,
-                        test_date:test_date
-
-                    }, function (result) {
-                        if (result.code == 200) {
-
-                            //更新第一列的值
-                            option.series[0].data=result.series_list;
-                            option.series[4].data=result.series_list04;
-                            //更新echart
-                            myChart.setOption(option);
-
-                        } else {
-                            return layer.msg(result.msg);
-                        }
-
-                    })
-                }
-
-                /**
-                 * echart图表初始化
-                 */
-                function show_chart() {
-                    // 基于准备好的dom，初始化echarts实例
-                    myChart = echarts.init(document.getElementById('main'), 'customed');
-                    option = get_chart_option()
-                    // 使用刚指定的配置项和数据显示图表。
-                    myChart.setOption(option);
-                }
-
-                /**
-                 * 获取数据option
-                 */
-                function get_chart_option() {
-                    var option = {
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                            }
-                        },
-                        legend: {
-                            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '百度', '谷歌', '必应', '其他']
-                        },
-                        grid: {
-                            left: '3%',
-                            right: '4%',
-                            bottom: '3%',
-                            containLabel: true
-                        },
-                        xAxis: [
-                            {
-                                type: 'category',
-                                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-                            }
-                        ],
-                        yAxis: [
-                            {
-                                type: 'value'
-                            }
-                        ],
-                        series: [
-                            {
-                                name: '直接访问',
-                                type: 'bar',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [320, 332, 301, 334, 390, 330, 320]
-                            },
-                            {
-                                name: '邮件营销',
-                                type: 'bar',
-                                stack: '广告',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [120, 132, 101, 134, 90, 230, 210]
-                            },
-                            {
-                                name: '联盟广告',
-                                type: 'bar',
-                                stack: '广告',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [220, 182, 191, 234, 290, 330, 310]
-                            },
-                            {
-                                name: '视频广告',
-                                type: 'bar',
-                                stack: '广告',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [150, 232, 201, 154, 190, 330, 410]
-                            },
-                            {
-                                name: '搜索引擎',
-                                type: 'bar',
-                                data: [862, 1018, 964, 1026, 1679, 1600, 1570],
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                markLine: {
-                                    lineStyle: {
-                                        type: 'dashed'
-                                    },
-                                    data: [
-                                        [{type: 'min'}, {type: 'max'}]
-                                    ]
-                                }
-                            },
-                            {
-                                name: '百度',
-                                type: 'bar',
-                                barWidth: 5,
-                                stack: '搜索引擎',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [620, 732, 701, 734, 1090, 1130, 1120]
-                            },
-                            {
-                                name: '谷歌',
-                                type: 'bar',
-                                stack: '搜索引擎',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [120, 132, 101, 134, 290, 230, 220]
-                            },
-                            {
-                                name: '必应',
-                                type: 'bar',
-                                stack: '搜索引擎',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [60, 72, 71, 74, 190, 130, 110]
-                            },
-                            {
-                                name: '其他',
-                                type: 'bar',
-                                stack: '搜索引擎',
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                data: [62, 82, 91, 84, 109, 110, 120]
-                            }
-                        ]
-                    };
-                    return option;
                 }
 
 
@@ -374,6 +347,176 @@
     </div>
 </div>
 
+{% raw %}
+<script id="testTemplate" type="text/html">
+
+    <div>
+        <tr style="height: 50px;">
+            <th>用例编号</th>
+            <th>用例名称</th>
+            <th>状态</th>
+            <th>进度</th>
+            <th>测试结果</th>
+            <th>测试结论</th>
+        </tr>
+        {{ each dataList as value }}
+        <tr style="height: 50px">
+            <td>{{ value.case_num }}</td>
+            <td><span class="text-success">{{ value.case_name }}</span></td>
+            <td>
+                {{if value.result=='0'}}
+                <span class="text-primary">{{ value.status }}</span>
+                {{else}}
+                <span class="text-danger">{{ value.status }}</span>
+                {{/if}}
+            </td>
+            <td>
+                <div class="Bar">
+                     {{if value.process<20}}
+                    <div  style='width:{{value.process}}%;background-color: #d43f3a'>
+                        <span>{{value.process}}%</span>
+                    </div>
+                    {{else if value.process<50 & value.process>20}}
+                     <div  style='width:{{value.process}}%;background-color: #f1a417'>
+                        <span>{{value.process}}%</span>
+                    </div>
+                    {{else}}
+                    <div  style='width:{{value.process}}%;background-color: #1b6d85'>
+                        <span>{{value.process}}%</span>
+                    </div>
+                    {{/if}}
+
+                </div>
+
+            </td>
+            <td>
+                {{if value.result=='通过'}}
+                <span class="text-navy">{{ value.result }}</span>
+                {{else}}
+                <span class="text-danger">{{ value.result }}</span>
+                {{/if}}
+
+            </td>
+            <td>{{ value.conclusion }}</td>
+        </tr>
+        {{ /each }}
+    </div>
+
+</script>
+{% endraw %}
+<script type="text/javascript">
+    $(function () {
+        var mamture_progress = $('#mamture_progress');
+        var progress_content = $('#progress_content');
+        var l = 0;
+        var _number = progress_content.attr('data-progress');
+        console.log("_number:" + _number);
+        var timer = null;
+        var pro = 0;
+        if (_number < 200) {
+            console.log("11111");
+            lad(_number, 200, '.progress-box-1', function () {
+                $('.progress-box-1').append('<span>再消费' + (200 - _number) + '元即可升级</span>');
+            });
+        }
+        ;
+
+        if (_number >= 200 && _number < 1000) {
+            console.log("22222");
+            lad(200, 200, '.progress-box-1', function () {
+                mamture_progress.addClass('v1');
+                lad(_number - 200, 1000 - 200, '.progress-box-2', function () {
+                    $('.progress-box-2').addClass('active');
+                    $('.progress-box-2').append('<span>再消费' + (1000 - _number) + '元即可升级</span>');
+                });
+            });
+        }
+        ;
+
+        if (_number >= 1000 && _number < 5000) {
+            console.log("33333");
+            lad(200, 200, '.progress-box-1', function () {
+                mamture_progress.addClass('v1')
+                lad(1000, 1000, '.progress-box-2', function () {
+                    mamture_progress.addClass('v2');
+                    lad(_number - 1000, 5000 - 1000, '.progress-box-3', function () {
+                        $('.progress-box-3').addClass('active');
+                        $('.progress-box-3').append('<span>再消费' + (5000 - _number) + '元即可升级</span>');
+                    })
+                });
+            });
+        }
+        ;
+
+        if (_number >= 5000 && _number < 10000) {
+            console.log("444444");
+            lad(200, 200, '.progress-box-1', function () {
+                mamture_progress.addClass('v1')
+                lad(1000, 1000, '.progress-box-2', function () {
+                    mamture_progress.addClass('v2')
+                    lad(5000, 5000, '.progress-box-3', function () {
+                        mamture_progress.addClass('v3')
+                        lad(_number - 5000, 10000 - 5000, '.progress-box-4', function () {
+                            $('.progress-box-4').addClass('active');
+                            $('.progress-box-4').append('<span>等待' + (10000 - _number) + '批处理完成</span>');
+                        })
+                    })
+                });
+            });
+        }
+        ;
+
+        if (_number >= 10000) {
+            lad(200, 200, '.progress-box-1', function () {
+                mamture_progress.addClass('v1')
+                lad(1000, 1000, '.progress-box-2', function () {
+                    mamture_progress.addClass('v2')
+                    lad(5000, 5000, '.progress-box-3', function () {
+                        mamture_progress.addClass('v3')
+                        lad(10000, 10000, '.progress-box-4', function () {
+                            mamture_progress.addClass('v4')
+                            lad(_number - 10000, 10000000, '.progress-box-5')
+                        })
+                    })
+                });
+            });
+        }
+        ;
+
+        /*
+         @number : 成长值
+         @max : 最大值
+         @callback : 回调方法
+         */
+        function lad(number, max, cls, callback) {
+            l = 0;
+            timer = setInterval(function () {
+                if (number <= 200) {
+                    l++;
+                } else if (number > 200 && number <= 1000) {
+                    l += 5;
+                } else if (number > 1000 && number <= 5000) {
+                    l += 10;
+                } else if (number > 5000 && number <= 10000) {
+                    l += 20;
+                } else {
+                    l += 30;
+                }
+                ;
+                pro = (l / max) * 60;              //100为  div的长度
+                if (l >= number) {
+                    clearInterval(timer);
+                    if (callback) callback();   //回调
+                }
+                ;
+                $(cls).css({
+                    width: pro + 'px'
+                })
+            }, 1)
+        }
+    });
+    /*进度条*/
+</script>
 
 </body>
 

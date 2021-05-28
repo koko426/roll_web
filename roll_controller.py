@@ -171,7 +171,6 @@ def case_data():
         }
     return jsonify(datas)
 
-
 @simple_page.route("/test_data", methods=['POST'])
 def test_data():
     if request.method == 'POST':
@@ -212,6 +211,36 @@ def scene_data():
         ]
         datas = {
             'sceneList': sceneList,
+            'code': 200,
+
+        }
+    return jsonify(datas)
+
+
+
+
+@simple_page.route("/monitor_data", methods=['POST'])
+def monitor_data():
+    if request.method == 'POST':
+        project_name = request.form['project_name']
+        test_date = request.form['test_date']
+        dataList = [{'id':1,'case_num': '11111', 'case_name': '哈哈哈哈', 'status': '0', 'process': '50',
+                     'result': '通过', 'conclusion': '该版本延期测试'},
+                    {'id':2,'case_num': '2222', 'case_name': '哈哈哈哈', 'status': '0', 'process': '75',
+                     'result': '通过', 'conclusion': '该版本延期测试'},
+                    {'id':3,'case_num': '3333', 'case_name': '哈哈哈哈', 'status': '0', 'process': '45',
+                     'result': '不通过', 'conclusion': '该版本延期测试'},
+                    {'id':4,'case_num': '4444', 'case_name': '哈哈哈哈', 'status': '1', 'process': '55',
+                     'result': '通过', 'conclusion': '该版本延期测试'},
+                    {'id':5,'case_num': '5555', 'case_name': '哈哈哈哈', 'status': '1', 'process': '100',
+                     'result': '通过', 'conclusion': '该版本延期测试'},
+                    {'id':6,'case_num': '66666', 'case_name': '哈哈哈哈', 'status': '0', 'process': '30',
+                     'result': '通过', 'conclusion': '该版本延期测试'},
+                    {'id': 6, 'case_num': '66666', 'case_name': '哈哈哈哈', 'status': '0', 'process': '18',
+                     'result': '通过', 'conclusion': '该版本延期测试'}
+                    ]
+        datas = {
+            'dataList': dataList,
             'code': 200,
 
         }
